@@ -24,11 +24,15 @@ for item in contacts_list:
     pattern = r"(\+7|8)?\s*\(?(\d{3})\)?[\s-]*(\d{3})\-*(\d{2})\-*(\d+)(\s*)\(*([а-яА-я]+\.)*\s*(\d+)*\)*(\.)*"
     repl = r"+7(\2)\3-\4-\5\6\7\8\9"
     item[5] = re.sub(pattern, repl, item[5])
+    if (len(item)) == 8 and item[7] == '':
+        item.pop(7)
     my_list.append(item)
+ 
+    
 
-for item in range(1,len(my_list)):
-    for element in range(2,len(my_list)):
-        if my_list[item][0] == my_list[element][0] and my_list[item][1] == my_list[element][1] and item != element:           
+for item in range(1,len(my_list)):    
+    for element in range(2,len(my_list)):        
+        if my_list[item][0] == my_list[element][0] and my_list[item][1] == my_list[element][1] and item != element:                     
             for component in range(2,7):
                 if my_list[item][component] != my_list[element][component]:                   
                     if my_list[item][component] == "":
@@ -38,9 +42,8 @@ for item in range(1,len(my_list)):
                     elif my_list[item][component] != "" and my_list[element][component]!= "":
                         combining = f'{my_list[item][component]} / {my_list[element][component]}'
                         my_list[element][component] = combining
-                        my_list[item][component] = combining 
-
-
+                        my_list[item][component] = combining
+        
 
 list_drop_duplicates = pd.Series(my_list).drop_duplicates().tolist() 
 
